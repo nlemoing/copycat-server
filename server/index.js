@@ -4,6 +4,16 @@ const { handleChanges } = require("./changes")
 
 const server = http.createServer((request, res) => {
     const { url, method } = request;
+    res.setHeader('Access-Control-Allow-Origin', '*');
+	res.setHeader('Access-Control-Request-Method', '*');
+	res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, POST');
+	res.setHeader('Access-Control-Allow-Headers', '*');
+	if ( req.method === 'OPTIONS' ) {
+		res.writeHead(200);
+		res.end();
+		return;
+	}
+
     if (url !== '/changes' || method !== 'POST') {
         res.statusCode = 404;
         res.end();
