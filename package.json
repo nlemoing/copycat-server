@@ -1,0 +1,15 @@
+{
+  "name": "copycat-server",
+  "version": "1.0.0",
+  "description": "Server to transform changes make by copycat",
+  "main": "server/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Nick Lemoing",
+  "license": "MIT",
+  "dependencies": {
+    "@codemod/core": "^1.0.7"
+  }
+}
