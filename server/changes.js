@@ -7,7 +7,7 @@ const SRC_DIR = resolve("../buyflow-client/src");
 
 function handleChanges(body) {
     const changesByFile = {};
-    Object.entries(body).forEach(([location, change]) => {
+    body.forEach(({ location, text: change }) => {
         let [filename, line, column] = location.split(':');
         filename = resolve(SRC_DIR, filename);
         line = parseInt(line);
@@ -21,18 +21,14 @@ function handleChanges(body) {
     })
 
     Object.entries(changesByFile).forEach(([filename, changes]) => {
-        applyChanges(filename, changes);
+        const code = readFileSync(filename, "utf-8");
+        const output = transform(code, {
+            plugins: [
+                [ resolve(__dirname, "./plugin.js"), { changes } ],
+            ]
+        });
+        writeFileSync(filename, output.code);
     });
-}
-
-function applyChanges(filename, changes) {
-    const code = readFileSync(filename, "utf-8");
-    const output = transform(code, {
-        plugins: [
-            [ resolve(__dirname, "./plugin.js"), { changes } ],
-        ]
-    });
-    writeFileSync(filename, output.code);
 }
 
 module.exports = {
