@@ -33,9 +33,15 @@ const server = http.createServer((request, res) => {
             return;
         }
 
-        await handleChanges(body);
-        res.statusCode = 200;
-        res.end();
+        try {
+            await handleChanges(body);
+            res.statusCode = 200;
+        } catch (e) {
+            console.error(e);
+            res.statusCode = 500;
+        } finally {
+            res.end();
+        } 
     });
 });
 

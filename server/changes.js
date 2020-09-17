@@ -1,9 +1,10 @@
 const { resolve } = require('path');
 const { readFileSync, writeFileSync } = require('fs');
+const { execSync } = require('child_process');
 
 const { transform } = require('@codemod/core');
 
-const SRC_DIR = resolve("../buyflow-client/src");
+const SRC_DIR = resolve("./buyflow-client/src");
 
 function handleChanges(body) {
     const changesByFile = {};
@@ -29,6 +30,8 @@ function handleChanges(body) {
         });
         writeFileSync(filename, output.code);
     });
+
+    execSync("./scripts/commit_to_branch.sh nick/cc/test-copycat-changes")
 }
 
 module.exports = {
