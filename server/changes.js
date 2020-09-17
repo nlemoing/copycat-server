@@ -31,8 +31,8 @@ function handleChanges(body) {
         writeFileSync(filename, output.code);
     });
 
-    if (body.commitAndPush) {
-        execSync("./scripts/commit_to_branch.sh nick/cc/test-copycat-changes")
+    if (body.branch) {
+        execSync(`./scripts/commit_to_branch.sh ${body.branch}`)
     }
 }
 
