@@ -8,7 +8,7 @@ const SRC_DIR = resolve("./buyflow-client/src");
 
 function handleChanges(body) {
     const changesByFile = {};
-    body.forEach(({ location, text: change }) => {
+    body.changes.forEach(({ location, text: change }) => {
         let [filename, line, column] = location.split(':');
         filename = resolve(SRC_DIR, filename);
         line = parseInt(line);
@@ -31,7 +31,9 @@ function handleChanges(body) {
         writeFileSync(filename, output.code);
     });
 
-    execSync("./scripts/commit_to_branch.sh nick/cc/test-copycat-changes")
+    if (body.commitAndPush) {
+        execSync("./scripts/commit_to_branch.sh nick/cc/test-copycat-changes")
+    }
 }
 
 module.exports = {
